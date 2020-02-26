@@ -56,13 +56,5 @@ public class guestOpensCollectionPage {
 
 		Assert.assertTrue(filterName.contains("GREEN"));
 		Assert.assertFalse(filterName.contains("RED"));
-
-
-
-
-
-
-
-
 	}
 }
