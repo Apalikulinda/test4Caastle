@@ -17,7 +17,7 @@ public class doingThings {
 		driver.get(baseUrl);
 		WebElement password = driver.findElement(By.cssSelector("#password"));
 		password.sendKeys("caastle");
-		driver.findElement(By.cssSelector("div:nth-child(1) div:nth-child(1) form.storefront-password-form:nth-child(2) div.actions:nth-child(5) > input.btn")).click();
+		driver.findElement(By.cssSelector("[name='commit']")).click();
 	}
 
 	@Test(priority = 0)
@@ -50,15 +50,13 @@ public class doingThings {
 		WebElement noneSubscriber = driver.findElement(By.cssSelector("#subscribe_link_nh"));
 		Assert.assertFalse(noneSubscriber.isDisplayed());
 
-		WebElement Subscriber = driver.findElement(By.cssSelector("body.ae-lang-en.ae-device-desktop.ae-:nth-child(2) div.page-wrapper.below.header:nth-child(48) div.header-v1-container.header-elements-container:nth-child(2) header.row.expanded.clearfix.header-common.header-elements:nth-child(1) section.logo-nav-container section.logo-bar.clearfix.promotion-bar-new section.small-4.medium-4.column.right-side-links.new-utility-header:nth-child(12) div.contact-info.utility-header:nth-child(2) div.head-nav div.customer.clearfix ul.row.closet-link-ul > li.p-relative.user-dd-wrap.gb-point:nth-child(4)"));
+		WebElement Subscriber = driver.findElement(By.cssSelector("div[role='button']"));
 		String specialClass = Subscriber.getAttribute("class");
-		System.out.println(specialClass);
 		Assert.assertTrue(specialClass.contains("customer-name-header"));
 	}
 
 	@Test(priority = 4)
 	public void verifyCollectionPageOpened() {
-		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#Fill-1")));
 		WebElement openAtqCollection = driver.findElement(By.cssSelector("#atqa-collection"));
 		openAtqCollection.click();
 
@@ -69,11 +67,16 @@ public class doingThings {
 		Assert.assertTrue(atqaCollectionText.equalsIgnoreCase("ATQA collection"));
 
 	}
-
 	@Test(priority = 5)
-	public void verifyProductPage() {
-		//new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#pageContentTitle")));
-		driver.findElement(By.cssSelector("body.ae-lang-en.ae-device-desktop.ae-:nth-child(2) div.page-wrapper.below.header.collection-scroll-fix:nth-child(50) div.page-wrapper-below-header:nth-child(4) div.main-content.main-content-new-header:nth-child(1) section.clearfix div.responsive.seo-collection-wrapper.faceted-search-hb-div.clearfix.collection-variation-b:nth-child(2) div.clearfix.faceted-mobile:nth-child(4) section.column.small-12.medium-9.gb-product-section:nth-child(2) ul.row.small-up-2.medium-up-3.large-up-3.small-block-grid-2.medium-block-grid-3.large-block-grid-3.product-ul.text-center:nth-child(2) li.column.column-block.pos-rel:nth-child(1) div.hover-item a.js-product-anchor div:nth-child(1) > img.full-width.product-img.ae-img")).click();
+	public void verifyAvailableItem () {
+		WebElement enableHangerIcon = driver.findElement(By.cssSelector("[data-position='1'] > span:nth-child(1)"));
+		Assert.assertTrue(enableHangerIcon.isEnabled());
+
+	}
+
+	@Test(priority = 6)
+	public void verifyProductPageOpened() {
+		driver.findElement(By.cssSelector("[data-position='1'] .product-img")).click();
 
 		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#galen-dekstop-garment-title")));
 		WebElement product = driver.findElement(By.cssSelector("#galen-dekstop-garment-title"));
@@ -81,51 +84,78 @@ public class doingThings {
 		Assert.assertTrue(productText.contains("PRODUCT"));
 	}
 
-	@Test(priority = 6)
+	@Test(priority = 7)
 	public void verifyItemWasAdded() {
 
 		//pick size and add to cart
-		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("body.ae-lang-en.ae-device-desktop.ae-:nth-child(2) div.page-wrapper.below.header:nth-child(49) div.page-wrapper-below-header:nth-child(4) div.main-content.main-content-new-header:nth-child(1) section.clearfix div.row.responsive.m-t.product-page-container div.product-detail-responsive.test-cam-product-71.one_image.clearfix div.product_body.clearfix div:nth-child(1) div.small-12.large-7.medium-7.columns.galen-left-column:nth-child(2) div.product-large-image.featured.small-12.large-10.medium-10.columns.image:nth-child(2) div:nth-child(2) > img.ae-img")));
-		driver.findElement(By.cssSelector("#btn-size-100071-BLK-S")).click();
-		driver.findElement(By.cssSelector("#add-to-cart")).click();
+		driver.findElement(By.cssSelector("[content='100071-BLK-S']")).click();
+		driver.findElement(By.cssSelector("button#add-to-cart")).click();
 
 		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.className("size-selector__in-closet-label")));
 		WebElement closetLabel = driver.findElement(By.className("size-selector__in-closet-label"));
 		String closetLabelText = closetLabel.getText();
-		System.out.println(closetLabelText);
 		Assert.assertTrue(closetLabelText.contains("IN CLOSET"));
-/*
-		new WebDriverWait(driver,10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#unclosetable_message")));
-		WebElement changedButton = driver.findElement(By.cssSelector("#unclosetable_message"));
-		String changedButtonText = changedButton.getText();
-		System.out.println(changedButtonText);
+
+
+
+
+
+
+
+		//new WebDriverWait(driver,10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("button#add-to-cart")));
+		//WebElement changedButton = driver.findElement(By.cssSelector("button#add-to-cart"));
+		//String changedButtonText = changedButton.getText();
+		//System.out.println(changedButtonText);
 		//Assert.assertTrue(changedButtonText.equalsIgnoreCase("In your closet"));
- */
+
 	}
 
-	@Test(priority = 7)
+	@Test(priority = 8)
 	public void verifyClosetPage() {
 
 		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("#closet_link_nh")));
 		driver.findElement(By.cssSelector("#closet_link_nh")).click();
 
 		new WebDriverWait(driver, 10).until(ExpectedConditions.visibilityOfElementLocated((By.cssSelector("#on-rack-li"))));
+		WebElement closetHeaderBar = driver.findElement(By.cssSelector(".closet-heading-bar__menu"));
+		String closetHeaderBarText = closetHeaderBar.getText();
+		Assert.assertTrue(closetHeaderBarText.contains("AT-HOME\n" + "ON-THE-RACK\n" + "ON-HOLD"));
+		//System.out.println(closetHeaderBarText);
+
 		WebElement closetHeadingRackElement = driver.findElement(By.cssSelector("#on-rack-li"));
-		String closetHeadingBarElementText = closetHeadingRackElement.getText();
-		System.out.println(closetHeadingBarElementText);
 		closetHeadingRackElement.click();
 	}
-/*
-	@Test(priority = 8)
-	public boolean verifyRankPage() {
-		new WebDriverWait(driver, 10).until(ExpectedConditions.urlContains("#onRack"));
-		System.out.println("On-the-Rank-Page! Wow!");
 
-		WebElement closetHeadingRackActiveElement = driver.findElement(By.cssSelector("#on-rack-li"));
+
+	@Test(priority = 9)
+	public void optionsWrapper() {
+		WebElement openOptions = driver.findElement(By.cssSelector(".closet-item-description-inner"));
+		openOptions.click();
+
+		new WebDriverWait(driver,10).until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".closet-item-actions-wrapper")));
+		WebElement optionsWrapper = driver.findElement(By.cssSelector(".closet-item-actions-wrapper"));
+		String optionsWrapperText = optionsWrapper.getText();
+		System.out.println(optionsWrapperText);
+		Assert.assertTrue(optionsWrapperText.contains("PRIORITIZE\n" + "OFF\n" + "HOLD\n" + "DELETE"));
+
 	}
 
- */
+	@Test(priority = 10)
+	public void verifyRemovingItem() {
+		WebElement deleteButon = driver.findElement(By.id("100071-BLK-S-delete"));
+		deleteButon.click();
+
+		WebElement noProducts = driver.findElement(By.cssSelector(".on-rack-products"));
+	}
+
+
+
 }
+
+
+
+
+
 
 
 
